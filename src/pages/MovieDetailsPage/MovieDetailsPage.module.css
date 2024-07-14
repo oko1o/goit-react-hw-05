@@ -1,0 +1,33 @@
+.header {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.poster {
+  width: 200px;
+  flex-shrink: 0;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.overview,
+.genres {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.subtitle {
+  font-weight: 700;
+}
+
+.extra {
+  display: flex;
+  gap: 20px;
+  margin-top: 20px;
+}
