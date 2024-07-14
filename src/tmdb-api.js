@@ -13,9 +13,9 @@ const options = {
   },
 };
 
-export const fetchTrandingMovie = async () => {
+export const fetchTrandingMovie = async (page) => {
   const res = await axios(
-    `${axios.defaults.baseURL}trending/movie/day`,
+    `${axios.defaults.baseURL}trending/movie/day?page=${page}`,
     options
   );
   return res.data;

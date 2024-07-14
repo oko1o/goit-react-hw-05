@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { fetchMoviesByQuery } from '../../tmdb-api';
 import LoadMoreBtn from '../../components/LoadMoreBtn/LoadMoreBtn';
 import css from './MoviesPage.module.css';
@@ -8,11 +8,14 @@ import css from './MoviesPage.module.css';
 export default function MoviesPage() {
   const inputRef = useRef();
   const [moviesData, setMoviesData] = useState([]);
-  const [query, setQuery] = useState('');
   const [error, setError] = useState(false);
   const [loader, setLoader] = useState(false);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const location = useLocation();
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const query = searchParams.get('query') || '';
 
   useEffect(() => {
     if (!query) return;
@@ -21,8 +24,9 @@ export default function MoviesPage() {
         setError(false);
         setLoader(true);
         const data = await fetchMoviesByQuery(query, page);
-        console.log(data);
-        setMoviesData(data.results);
+        setMoviesData((prevData) =>
+          page === 1 ? data.results : [...prevData, ...data.results]
+        );
         setTotalPages(data.total_pages);
       } catch (error) {
         setError(true);
@@ -36,13 +40,11 @@ export default function MoviesPage() {
 
   const handleClick = (e) => {
     e.preventDefault();
-    setQuery(inputRef.current.value);
+    searchParams.set('query', inputRef.current.value);
+    setSearchParams(searchParams);
     inputRef.current.value = '';
+    setPage(1);
   };
-
-  const isVisibleLoadMoreBtn = totalPages >= page && moviesData.length > 0;
-  console.log(page);
-  console.log(totalPages);
 
   const onLoadMore = () => setPage(page + 1);
 
@@ -59,7 +61,11 @@ export default function MoviesPage() {
         {error && <p>Something went wrong...</p>}
         {moviesData.map((movieData) => (
           <li key={movieData.id} className={css.item}>
-            <Link to={`/movie/${movieData.id}`} className={css.link}>
+            <Link
+              to={`/movie/${movieData.id}`}
+              state={location}
+              className={css.link}
+            >
               <img
                 src={
                   movieData.poster_path
@@ -72,8 +78,7 @@ export default function MoviesPage() {
             </Link>
           </li>
         ))}
-        {<LoadMoreBtn onClick={onLoadMore} />}
-        {page}
+        {totalPages > page && <LoadMoreBtn onClick={onLoadMore} />}
       </ul>
     </section>
   );

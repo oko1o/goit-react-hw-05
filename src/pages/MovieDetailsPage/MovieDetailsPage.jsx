@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { Link, Outlet, useParams } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
+import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
 import { fetchMovieDetailsById } from '../../tmdb-api';
 import css from './MovieDetailsPage.module.css';
 
@@ -8,7 +8,8 @@ export default function MovieDetailsPage() {
   const [movieData, setMovieData] = useState([]);
   const [error, setError] = useState(false);
   const [loader, setLoader] = useState(false);
-  console.log(movieId);
+  const location = useLocation();
+  const backPathRef = useRef(location.state ?? '/movies');
 
   useEffect(() => {
     if (!movieId) return;
@@ -18,7 +19,6 @@ export default function MovieDetailsPage() {
         setLoader(true);
         setMovieData([]);
         const data = await fetchMovieDetailsById(movieId);
-        console.log(data);
         setMovieData(data);
       } catch (error) {
         setError(true);
@@ -34,6 +34,9 @@ export default function MovieDetailsPage() {
     <section className={css.section}>
       {loader && <p>Fetching data. Please wait...</p>}
       {error && <p>Something went wrong...</p>}
+      <Link to={backPathRef.current} className={css.back}>
+        Back
+      </Link>
       <div className={css.header}>
         <div className={css.poster}>
           <img
