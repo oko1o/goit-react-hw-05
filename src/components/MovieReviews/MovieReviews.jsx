@@ -28,18 +28,24 @@ export default function MovieReviews() {
   }, [movieId]);
 
   return (
-    <ul className={css.list}>
-      {loader && <p>Fetching data. Please wait...</p>}
-      {error && <p>Something went wrong...</p>}
-      {reviewsData
-        ? reviewsData.map((reviewData) => (
-            <li key={reviewData.id} className={css.item}>
-              <p>{reviewData.author}</p>
-              <p>{reviewData.created_at}</p>
-              <p>{reviewData.content}</p>
-            </li>
-          ))
-        : ''}
-    </ul>
+    <>
+      <ul className={css.list}>
+        {loader && <p>Fetching data. Please wait...</p>}
+        {error && <p>Something went wrong...</p>}
+        {reviewsData
+          ? reviewsData.map((reviewData) => (
+              <li key={reviewData.id} className={css.item}>
+                <p>{reviewData.author}</p>
+                <p>{reviewData.created_at}</p>
+                <p>{reviewData.content}</p>
+              </li>
+            ))
+          : ''}
+      </ul>
+      <div className={css.status}>
+        {loader && <p>Fetching data. Please wait...</p>}
+        {error && <p>Something went wrong...</p>}
+      </div>
+    </>
   );
 }

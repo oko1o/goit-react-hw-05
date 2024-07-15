@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { fetchTrandingMovie } from '../../tmdb-api.js';
 import LoadMoreBtn from '../../components/LoadMoreBtn/LoadMoreBtn.jsx';
+import MovieList from '../../components/MovieList/MovieList.jsx';
 import css from './HomePage.module.css';
 
 export default function HomePage() {
@@ -38,26 +38,15 @@ export default function HomePage() {
   return (
     <section>
       <ul className={css.list}>
+        {moviesData && <MovieList moviesData={moviesData} />}
+      </ul>
+      <div className={css.loadMore}>
+        {totalPages > page && <LoadMoreBtn onClick={onLoadMore} />}
+      </div>
+      <div className={css.status}>
         {loader && <p>Fetching data. Please wait...</p>}
         {error && <p>Something went wrong...</p>}
-        {moviesData &&
-          moviesData.map((movieData) => (
-            <li key={movieData.id} className={css.item}>
-              <Link to={`/movie/${movieData.id}`} className={css.link}>
-                <img
-                  src={
-                    movieData.poster_path
-                      ? `https://image.tmdb.org/t/p/w500${movieData.poster_path}`
-                      : `https://dessertdivine.com.au/wp-content/uploads/2022/02/Image-Not-Available.png`
-                  }
-                  alt={movieData.title}
-                />
-                <p className={css.title}>{movieData.title}</p>
-              </Link>
-            </li>
-          ))}
-        {totalPages > page && <LoadMoreBtn onClick={onLoadMore} />}
-      </ul>
+      </div>
     </section>
   );
 }

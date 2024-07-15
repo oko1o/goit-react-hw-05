@@ -32,8 +32,10 @@ export default function MovieDetailsPage() {
 
   return (
     <section className={css.section}>
-      {loader && <p>Fetching data. Please wait...</p>}
-      {error && <p>Something went wrong...</p>}
+      <div className={css.status}>
+        {loader && <p>Fetching data. Please wait...</p>}
+        {error && <p>Something went wrong...</p>}
+      </div>
       <Link to={backPathRef.current} className={css.back}>
         Back
       </Link>

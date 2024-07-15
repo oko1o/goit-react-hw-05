@@ -4,3 +4,9 @@
   gap: 5px;
   margin-top: 20px;
 }
+
+.status {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

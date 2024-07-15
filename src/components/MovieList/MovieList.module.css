@@ -1,0 +1,13 @@
+.item {
+  padding: 10px;
+  width: 188.8px;
+  outline: 1px solid darkgray;
+}
+
+.link {
+  color: black;
+}
+
+.title {
+  margin-top: 10px;
+}

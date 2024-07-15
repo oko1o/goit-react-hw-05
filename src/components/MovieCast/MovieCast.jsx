@@ -28,16 +28,20 @@ export default function MovieCast() {
   }, [movieId]);
 
   return (
-    <ul className={css.list}>
-      {loader && <p>Fetching data. Please wait...</p>}
-      {error && <p>Something went wrong...</p>}
-      {creditsData
-        ? creditsData.map((creditData) => (
-            <li key={creditData.id} className={css.item}>
-              {creditData.name}
-            </li>
-          ))
-        : ''}
-    </ul>
+    <>
+      <ul className={css.list}>
+        {creditsData
+          ? creditsData.map((creditData) => (
+              <li key={creditData.id} className={css.item}>
+                {creditData.name}
+              </li>
+            ))
+          : ''}
+      </ul>
+      <div className={css.status}>
+        {loader && <p>Fetching data. Please wait...</p>}
+        {error && <p>Something went wrong...</p>}
+      </div>
+    </>
   );
 }
