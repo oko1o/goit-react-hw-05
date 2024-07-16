@@ -71,10 +71,10 @@ export default function MovieDetailsPage() {
         <h2>Additional information</h2>
         <ul className={css.extra}>
           <li>
-            <Link to={`credits`}>Cast</Link>
+            <Link to="credits">Cast</Link>
           </li>
           <li>
-            <Link to={`reviews`}>Reviews</Link>
+            <Link to="reviews">Reviews</Link>
           </li>
         </ul>
       </div>

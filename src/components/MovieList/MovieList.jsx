@@ -9,7 +9,11 @@ export default function MovieList({ moviesData }) {
 
   return moviesData.map((movieData) => (
     <li key={movieData.id} className={css.item}>
-      <Link to={`/movie/${movieData.id}`} state={location} className={css.link}>
+      <Link
+        to={`/movies/${movieData.id}`}
+        state={location}
+        className={css.link}
+      >
         <img
           src={
             movieData.poster_path
